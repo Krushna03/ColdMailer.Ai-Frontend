@@ -69,7 +69,7 @@ const LandingPage = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 mb-24">
             <NavLink
-              to="/sign-"
+              to="/sign-in"
               className="bg-[#3f1cbc] hover:bg-[#2c1679] text-white px-8 py-3 rounded-lg transition-colors font-medium"
             >
               Get started

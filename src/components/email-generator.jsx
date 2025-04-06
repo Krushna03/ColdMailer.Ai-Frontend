@@ -73,8 +73,7 @@ export function EmailGenerator({ emailGenerated }) {
     };
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto h-full overflow-hidden">
-      <div className="relative w-full h-full">
+    <div className="w-full max-w-[1400px] mx-auto relative h-full overflow-hidden">
         <div 
           className={`
             w-full
@@ -92,8 +91,8 @@ export function EmailGenerator({ emailGenerated }) {
 
         <div 
           className={`
-            w-full
-            transition-all duration-500 ease-in-out
+            w-full h-full mt-6
+            transition-all duration-500 ease-in-out 
             ${showOutput ? 'transform translate-y-0 opacity-100' : 'transform translate-y-full opacity-0'}
             absolute top-0 left-0 bottom-0
           `}
@@ -112,7 +111,6 @@ export function EmailGenerator({ emailGenerated }) {
               setPrompt("")
             }}
           />
-        </div>
       </div>
 
 
