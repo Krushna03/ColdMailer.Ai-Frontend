@@ -75,7 +75,7 @@ export function Header() {
                 <DropdownMenuTrigger asChild>
                   <User className="h-10 w-10 rounded-full bg-[#4a465bd3] text-white p-2 cursor-pointer"/>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-52 bg-[#24232bf3] text-white border-none mr-5 mt-2">
+                <DropdownMenuContent className="min-w-52 bg-[#24232bf3] text-white border-none mr-5 mt-2">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
@@ -86,7 +86,7 @@ export function Header() {
 
                     <DropdownMenuItem>
                       Email
-                      <DropdownMenuShortcut>{user?.userData?.email}</DropdownMenuShortcut>
+                      <DropdownMenuShortcut className="ml-5">{user?.userData?.email}</DropdownMenuShortcut>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   

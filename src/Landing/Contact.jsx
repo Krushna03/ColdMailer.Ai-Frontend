@@ -36,6 +36,16 @@ export default function Contact() {
         setFormData({email: "", name: "", message: ""})
       }
 
+      if (res.status === 500) { 
+        toast({
+          title: "Error !!",
+          description: res.data.message,
+        });
+        setFormData({email: "", name: "", message: ""})
+        return;
+      }
+
+
     } catch (error) {
       console.log("Error in contact", error);
       if (error.response && error.response.data) {

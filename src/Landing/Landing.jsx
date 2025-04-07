@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink } from "react-router-dom"
-import { FaArrowRight } from "react-icons/fa6";
 import Faq from './Faq';
 import Contact from './Contact';
 import Footer from './Footer';
@@ -54,7 +53,7 @@ const LandingPage = () => {
 
         {/* Hero Section */}
         <main className="relative z-10 flex flex-col items-center justify-center px-6 text-center mt-20 md:mt-24">
-          <div className="inline-flex items-center bg-[#1a1133] shadow-2xl rounded-full px-4 py-2 mb-6">
+          <div className="inline-flex items-center bg-[#1a1133] shadow-2xl rounded-full px-4 py-2 mb-6 gap-1">
             <img src="/white-logo.png" alt="logo" className="h-7 w-7 p-1 rounded" />
             <span className="text-sm">ColdMailer.Ai - AI Powered Email Generator</span>
           </div>

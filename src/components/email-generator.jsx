@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { EmailInput } from './email-input';
 import { EmailOutput } from './email-output';
 import { useToast } from "../hooks/use-toast";
-// import { Toaster } from "../hooks/use-toast";
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export function EmailGenerator({ emailGenerated }) {
     const [prompt, setPrompt] = useState("");
@@ -14,7 +14,9 @@ export function EmailGenerator({ emailGenerated }) {
     const [bottomPrompt, setBottomPrompt] = useState("");
     const [showOutput, setShowOutput] = useState(false);
     const { toast } = useToast();
-    
+
+    const user = useSelector(state => state.auth.userData)
+    const userId = user?.userData?._id
 
     const generateEmail = async (e) => {
       e.preventDefault();
@@ -24,7 +26,10 @@ export function EmailGenerator({ emailGenerated }) {
       emailGenerated(true);
 
       try {
-        const response = await axios.post('/api/v1/email/generate-email', { prompt });
+        const response = await axios.post('/api/v1/email/generate-email', { prompt, userId }, 
+          { withCredentials: true}
+        );
+
         if (response.data.success) {
           setGeneratedEmail(response.data.fullEmail);
         } else {

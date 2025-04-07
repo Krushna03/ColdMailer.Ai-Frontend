@@ -3,6 +3,7 @@ import { Copy, CopyCheckIcon, Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { TiArrowBack } from "react-icons/ti";
+import { useSelector } from 'react-redux';
 
 
 export function EmailOutput({
@@ -16,6 +17,10 @@ export function EmailOutput({
 }) {
   
   const [copied, setCopied] = useState(false);
+
+  const user = useSelector(state => state.auth.userData)
+  let userInitial = user?.userData?.username 
+  userInitial = userInitial?.slice(0, 1)
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(generatedEmail);
@@ -36,15 +41,15 @@ export function EmailOutput({
           </Button>
           
           <div className="mt-2 overflow-y-auto custom-scroll h-[490px]">
-            <p className="bg-[#0d0e12] shadow-xl text-base font-normal text-gray-200 py-2 p-4 rounded-xl">
-              {prompt}
+            <p className="bg-[#0d0e12] shadow-xl text-lg font-normal text-gray-100 py-2 p-4 rounded-md">
+             <span className='bg-[#482b9e] px-3 py-1 mr-1 rounded-full text-lg -ml-2'>{userInitial?.toUpperCase()}</span> {prompt}
             </p>
-            <div className="mt-3 rounded-xl text-gray-300 p-4 bg-[#0d0e12] text-sm font-normal">
+            <div className="mt-3 rounded-md text-gray-300 p-3 bg-[#0d0e12] text-sm font-normal">
               <p>Want to refine your email further? Use the input below to specify any additional requirements or modifications.</p>
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-1 w-full bg-black">
+          <div className="absolute bottom-0 left-1 w-full">
             <Textarea
               placeholder="Add any specific requirements or modifications..."
               className="bg-[#0d0e12] w-full py-3 px-3 text-white max-h-48 text-xl border border-gray-400 rounded-xl placeholder:text-base placeholder:font-medium placeholder:text-gray-500 focus:outline-blue-800 resize-none custom-scroll"
