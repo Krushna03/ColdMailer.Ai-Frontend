@@ -6,6 +6,7 @@ import Protected from './components/Protected'
 import NotFound from './components/NotFound'
 import LandingPage from './Landing/Landing'
 
+
 function App() {
   
   const router = createBrowserRouter([

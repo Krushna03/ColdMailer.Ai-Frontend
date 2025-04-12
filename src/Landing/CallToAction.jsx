@@ -24,7 +24,7 @@ function CallToAction() {
           </button>
         </div>
 
-        <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight">
+        <h2 className="text-3xl md:text-5xl font-bold mb-8 leading-tight">
         Start generating emails
           <br />
           that work for you
@@ -33,7 +33,7 @@ function CallToAction() {
         <div className="flex flex-col items-center">
           <NavLink
             to="/generate-email"
-            className="bg-[#3f1cbc] hover:bg-[#2c1679] text-white font-medium py-3 px-8 rounded-full text-lg transition-colors duration-200 mb-3"
+            className="bg-[#3f1cbc] hover:bg-[#2c1679] text-white font-medium py-2 px-5 md:py-3 md:px-8 rounded-full text-lg transition-colors duration-200 mb-3"
           >
             Try it for Free
           </NavLink>

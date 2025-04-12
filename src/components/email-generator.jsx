@@ -1,10 +1,10 @@
-
 import { useState } from 'react';
 import { EmailInput } from './email-input';
 import { EmailOutput } from './email-output';
 import { useToast } from "../hooks/use-toast";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+
 
 export function EmailGenerator({ emailGenerated }) {
     const [prompt, setPrompt] = useState("");
@@ -13,7 +13,9 @@ export function EmailGenerator({ emailGenerated }) {
     const [error, setError] = useState(null);
     const [bottomPrompt, setBottomPrompt] = useState("");
     const [showOutput, setShowOutput] = useState(false);
+    const [emailId, setEmailId] = useState("")
     const { toast } = useToast();
+    const url = import.meta.env.VITE_BASE_URL
 
     const user = useSelector(state => state.auth.userData)
     const userId = user?.userData?._id
@@ -26,12 +28,15 @@ export function EmailGenerator({ emailGenerated }) {
       emailGenerated(true);
 
       try {
-        const response = await axios.post('/api/v1/email/generate-email', { prompt, userId }, 
+        const response = await axios.post(`${url}/api/v1/email/generate-email`, { prompt, userId }, 
           { withCredentials: true}
         );
 
+        console.log(response);
+
         if (response.data.success) {
           setGeneratedEmail(response.data.fullEmail);
+          setEmailId(response.data.emailId)
         } else {
           throw new Error(response.data.error || 'Failed to generate email');
         }
@@ -47,7 +52,6 @@ export function EmailGenerator({ emailGenerated }) {
       }
     };
 
-    
 
     const updateEmail = async () => {
       if (!bottomPrompt) return;
@@ -55,9 +59,12 @@ export function EmailGenerator({ emailGenerated }) {
       setError(null);
 
       try {
-        const response = await axios.post('/api/v1/update-email', {
+        const response = await axios.post(`${url}/api/v1/email/update-email`, {
           baseEmail: generatedEmail,
-          modifications: bottomPrompt
+          modifications: bottomPrompt,
+          emailId
+        }, {
+          withCredentials: true
         });
         if (response.data.success) {
           setGeneratedEmail(response.data.updatedEmail);
@@ -76,6 +83,7 @@ export function EmailGenerator({ emailGenerated }) {
         setLoading(false);
       }
     };
+
 
   return (
     <div className="w-full max-w-[1400px] mx-auto relative h-full overflow-hidden">
@@ -117,7 +125,6 @@ export function EmailGenerator({ emailGenerated }) {
             }}
           />
       </div>
-
 
       {error && (
         <div className="text-red-400 text-center mt-4 p-4 rounded-lg bg-red-500/10 backdrop-blur-sm">

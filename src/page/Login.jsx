@@ -8,8 +8,6 @@ import axios from "axios"
 import { NavLink, useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { Toaster } from "../components/ui/toaster"
-// import jwt_decode from "jwt-decode"
-// import * as jwt_decode from "jwt-decode"; 
 import Googlelogin from "./Google-Login"
 
 export default function LoginPage() {
@@ -19,12 +17,13 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const url = import.meta.env.VITE_BASE_URL
 
 
   const submit = async (data) => {
     setLoading(true)
     try {
-      const res = await axios.post('api/v1/user/login', data, { withCredentials: true })
+      const res = await axios.post(`${url}/api/v1/user/login`, data, { withCredentials: true })
 
       if (res.status === 200) { 
         toast({
@@ -74,7 +73,7 @@ export default function LoginPage() {
 
   return (
     <div className="h-screen overflow-y-hidden flex flex-col bg-black bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,rgba(121,120,240,0.2),rgba(255,255,255,0))]">
-      <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
+      <div className="relative flex min-h-screen flex-col items-center sm:justify-center overflow-hidden mt-20 sm:mt-0">
         <MovingDots />
         <div className="relative z-10 w-full max-w-md rounded-3xl bg-zinc-900/80 px-8 py-8 backdrop-blur-sm">
           <div className="mb-6 flex flex-col items-center">

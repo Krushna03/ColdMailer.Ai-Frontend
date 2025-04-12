@@ -4,7 +4,7 @@ import { User } from "lucide-react"
 import { useToast } from "../hooks/use-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../context/authSlice"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import axios from "axios"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger} from "../components/ui/dropdown-menu"
 
@@ -16,13 +16,13 @@ export function Header() {
   const [loading, setLoading] = useState(false)
   const user = useSelector(state => state.auth.userData)
   const token = localStorage.getItem('token') || null;
-  
+  const url = import.meta.env.VITE_BASE_URL
 
   const handleLogout = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
-      const response = await axios.post('/api/v1/user/logout', {}, {
+      const response = await axios.post(`${url}/api/v1/user/logout`, {}, {
         withCredentials: true
       })
       if (response.status === 200) {
@@ -50,7 +50,7 @@ export function Header() {
   
   return (
     <header className="backdrop-blur-md shadow-lg shadow-blue-900/0 group-hover:shadow-blue-900/50">
-      <div className="container flex h-16 items-center px-10">
+      <div className=" flex h-16 items-center px-10">
         <NavLink to="/" className="flex items-center gap-1 mr-6 group">
           <div className="p-2 px-4 rounded-xl transition-shadow flex items-center gap-2">
             <img src="/white-logo.png" alt="logo" className="h-11 w-11 p-1 rounded" />
@@ -75,7 +75,7 @@ export function Header() {
                 <DropdownMenuTrigger asChild>
                   <User className="h-10 w-10 rounded-full bg-[#4a465bd3] text-white p-2 cursor-pointer"/>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="min-w-52 bg-[#24232bf3] text-white border-none mr-5 mt-2">
+                <DropdownMenuContent className="w-72 bg-[#24232bf3] text-white border-none mr-5 mt-2">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
@@ -84,9 +84,11 @@ export function Header() {
                       <DropdownMenuShortcut>{user?.userData?.username}</DropdownMenuShortcut>
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem>
+                    <DropdownMenuItem className="gap-2">
                       Email
-                      <DropdownMenuShortcut className="ml-5">{user?.userData?.email}</DropdownMenuShortcut>
+                      <DropdownMenuShortcut>
+                        {user?.userData?.email}
+                      </DropdownMenuShortcut>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   
