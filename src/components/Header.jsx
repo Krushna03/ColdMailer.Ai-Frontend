@@ -18,6 +18,8 @@ export function Header() {
   const token = localStorage.getItem('token') || null;
   const url = import.meta.env.VITE_BASE_URL
 
+  const manun = true
+
   const handleLogout = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -50,30 +52,31 @@ export function Header() {
   
   return (
     <header className="backdrop-blur-md shadow-lg shadow-blue-900/0 group-hover:shadow-blue-900/50">
-      <div className=" flex h-16 items-center px-10">
-        <NavLink to="/" className="flex items-center gap-1 mr-6 group">
-          <div className="p-2 px-4 rounded-xl transition-shadow flex items-center gap-2">
-            <img src="/white-logo.png" alt="logo" className="h-11 w-11 p-1 rounded" />
-            <span className="font-medium text-gray-100 text-2xl">
+      <div className=" flex h-16 items-center px-2 md:px-10">
+        <NavLink to="/" className="flex items-center gap-1 md:mr-6 group">
+          <div className="p-2 md:px-4 rounded-xl transition-shadow flex items-center gap-2">
+            <img src="/white-logo.png" alt="logo" className="h-9 w-9 md:h-11 md:w-11 p-1 rounded" />
+            <span className="font-medium text-gray-100 text-xl md:text-2xl">
               𝐂𝐨𝐥𝐝𝐌𝐚𝐢𝐥𝐞𝐫.𝐀𝐢
             </span>
           </div>
         </NavLink>
         <div className="ml-auto flex items-center gap-4 mt-1">
           {
-            token ? (
+            // token 
+            manun ? (
               <>
               <NavLink to={"/sign-in"}>
-                <ShimmerButton className="shadow-2xl" onClick={handleLogout}>
+                <ShimmerButton className="hidden sm:block shadow-2xl" onClick={handleLogout}>
                   <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none text-white dark:from-white dark:to-slate-900/10 lg:text-base tracking-wider">
                   {loading ? "Loading...." : "Logout"} 
                   </span>
                 </ShimmerButton>
               </NavLink>
 
-              <DropdownMenu>
+              <DropdownMenu className="ml-3">
                 <DropdownMenuTrigger asChild>
-                  <User className="h-10 w-10 rounded-full bg-[#4a465bd3] text-white p-2 cursor-pointer"/>
+                  <User className="h-8 w-8 sm:h-10 sm:w-10 mr-2 sm:mr-0 rounded-full bg-[#4a465bd3] text-white p-2 cursor-pointer"/>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-72 bg-[#24232bf3] text-white border-none mr-5 mt-2">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>

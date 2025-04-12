@@ -29,8 +29,8 @@ export function EmailOutput({
   };
 
   return (
-      <div className="flex gap-8 P-2">
-        <div className="w-[35%] relative">
+      <div className="sm:flex gap-8 P-2 mt-12 sm:mt-1">
+        <div className="sm:w-[35%] relative">
           <Button 
             onClick={onBack}
             variant="outline" 
@@ -71,7 +71,7 @@ export function EmailOutput({
           </div>
         </div>
 
-        <div className="w-[65%] flex flex-col">
+        <div className="sm:w-[65%] mt-5 sm:mt-0 flex flex-col">
           <div className="flex justify-end">
             {!loading && (
               <Button onClick={copyToClipboard} className="p-0 bg-none">

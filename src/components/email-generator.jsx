@@ -12,7 +12,7 @@ export function EmailGenerator({ emailGenerated }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [bottomPrompt, setBottomPrompt] = useState("");
-    const [showOutput, setShowOutput] = useState(false);
+    const [showOutput, setShowOutput] = useState(true);
     const [emailId, setEmailId] = useState("")
     const { toast } = useToast();
     const url = import.meta.env.VITE_BASE_URL
@@ -86,7 +86,7 @@ export function EmailGenerator({ emailGenerated }) {
 
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto relative h-full overflow-hidden">
+    <div className="w-full max-w-[1400px] mx-auto relative h-full -top-16 sm:-top-4 overflow-hidden">
         <div 
           className={`
             w-full
