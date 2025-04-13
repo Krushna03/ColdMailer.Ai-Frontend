@@ -12,13 +12,13 @@ const Protected = ({ children }) => {
     return user
   };
 
-  // const user = getCurrentUser();
+  const user = getCurrentUser();
 
-  // if (!user) {
-  //   return (
-  //       <Navigate to="/sign-in" state={{ from: location }} replace />
-  //     ) 
-  // }
+  if (!user) {
+    return (
+        <Navigate to="/sign-in" state={{ from: location }} replace />
+      ) 
+  }
 
   return children;
 }

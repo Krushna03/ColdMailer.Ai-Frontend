@@ -63,8 +63,7 @@ export function Header() {
         </NavLink>
         <div className="ml-auto flex items-center gap-4 mt-1">
           {
-            // token 
-            manun ? (
+            token ? (
               <>
               <NavLink to={"/sign-in"}>
                 <ShimmerButton className="hidden sm:block shadow-2xl" onClick={handleLogout}>

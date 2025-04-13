@@ -12,7 +12,7 @@ export function EmailGenerator({ emailGenerated }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [bottomPrompt, setBottomPrompt] = useState("");
-    const [showOutput, setShowOutput] = useState(true);
+    const [showOutput, setShowOutput] = useState(false);
     const [emailId, setEmailId] = useState("")
     const { toast } = useToast();
     const url = import.meta.env.VITE_BASE_URL
@@ -31,8 +31,6 @@ export function EmailGenerator({ emailGenerated }) {
         const response = await axios.post(`${url}/api/v1/email/generate-email`, { prompt, userId }, 
           { withCredentials: true}
         );
-
-        console.log(response);
 
         if (response.data.success) {
           setGeneratedEmail(response.data.fullEmail);
@@ -86,7 +84,7 @@ export function EmailGenerator({ emailGenerated }) {
 
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto relative h-full -top-16 sm:-top-4 overflow-hidden">
+    <div className="w-full max-w-[1400px] mx-auto relative h-full -top-16 sm:-top-4">
         <div 
           className={`
             w-full
@@ -105,7 +103,7 @@ export function EmailGenerator({ emailGenerated }) {
         <div 
           className={`
             w-full h-full mt-6
-            transition-all duration-500 ease-in-out 
+            transition-all duration-500 ease-in-out overflow-y-auto sm:overflow-y-hidden custom-scroll
             ${showOutput ? 'transform translate-y-0 opacity-100' : 'transform translate-y-full opacity-0'}
             absolute top-0 left-0 bottom-0
           `}
@@ -127,7 +125,7 @@ export function EmailGenerator({ emailGenerated }) {
       </div>
 
       {error && (
-        <div className="text-red-400 text-center mt-4 p-4 rounded-lg bg-red-500/10 backdrop-blur-sm">
+        <div className="text-red-400 text-center mt-4 p-4 rounded-lg bg-red-500/10 backdrop-blur-sm z-50">
           {error}
         </div>
       )}
