@@ -84,7 +84,7 @@ export function EmailGenerator({ emailGenerated }) {
 
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto relative h-full -top-16 sm:-top-4">
+    <div className="w-full max-w-[1400px] mx-auto relative h-full -top-6 sm:-top-4">
         <div 
           className={`
             w-full
