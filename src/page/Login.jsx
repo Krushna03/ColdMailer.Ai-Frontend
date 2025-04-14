@@ -19,7 +19,6 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const url = import.meta.env.VITE_BASE_URL
 
-
   const submit = async (data) => {
     setLoading(true)
     try {
@@ -123,9 +122,10 @@ export default function LoginPage() {
             <div className="flex-1 border-t border-gray-300"></div>
           </div>
           
-          <div className="mt-6">
+          <div className="w-full flex flex-col items-center mt-6">
             <Googlelogin />
-            <h1 className="text-center text-gray-300 mt-5">Don't have an account?
+            <h1 className="text-center text-gray-300 mt-5">
+              Don't have an account?
               <NavLink to="/sign-up">
                 <span className="text-blue-500 ml-2">Signup</span>
               </NavLink>
