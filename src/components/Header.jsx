@@ -52,7 +52,7 @@ export function Header() {
   
   return (
     <header className="backdrop-blur-md shadow-lg shadow-blue-900/0 group-hover:shadow-blue-900/50">
-      <div className=" flex h-16 items-center px-2 md:px-10">
+      <div className="flex h-16 items-center px-2 md:px-10">
         <NavLink to="/" className="flex items-center gap-1 md:mr-6 group">
           <div className="p-2 md:px-4 rounded-xl transition-shadow flex items-center gap-2">
             <img src="/white-logo.png" alt="logo" className="h-9 w-9 md:h-11 md:w-11 p-1 rounded" />

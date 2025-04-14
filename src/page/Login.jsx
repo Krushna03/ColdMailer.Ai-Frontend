@@ -76,12 +76,16 @@ export default function LoginPage() {
       <div className="relative flex min-h-screen flex-col items-center sm:justify-center overflow-hidden mt-20 sm:mt-0 px-3">
         <MovingDots />
         <div className="relative z-10 w-full max-w-md rounded-3xl bg-zinc-900/80 px-8 py-8 backdrop-blur-sm">
-          <div className="mb-6 flex flex-col items-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full">
-              <img src="/white-logo.png" alt="login-logo" height={40} width={40} />
+          
+          <NavLink to="/">
+            <div className="mb-6 flex flex-col items-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full">
+                <img src="/white-logo.png" alt="login-logo" height={40} width={40} />
+              </div>
+              <h1 className="mt-4 text-2xl font-semibold text-white">ColdMailer.Ai</h1>
             </div>
-            <h1 className="mt-4 text-2xl font-semibold text-white">ColdMailer.Ai</h1>
-          </div>
+          </NavLink>
+          
           <form className="space-y-6" onSubmit={handleSubmit(submit)}>
             <div>
               <Input

@@ -32,6 +32,13 @@ export function EmailOutput({
       <div className="flex flex-col sm:flex sm:flex-row gap-8 P-2 mt-6 sm:mt-1">
 
         <div className="sm:w-[65%] flex flex-col mt-9 sm:mt-0">
+          
+          <div className="sm:hidden mt-2 mb-3 sm:mb-0 overflow-y-auto custom-scroll max-h-[350px] sm:h-[490px]">
+            <p className="bg-[#0d0e12] shadow-xl text-sm sm:text-lg font-normal text-gray-100 py-2 p-4 rounded-md">
+            <span className='bg-[#482b9e] px-2 py-1 sm:px-3 sm:py-1 mr-1 rounded-full text-sm sm:text-lg -ml-2'>{userInitial?.toUpperCase()}</span> {prompt}
+            </p>
+          </div>
+          
           <div className="flex justify-between items-center sm:justify-start">
             {!loading && (
               <Button onClick={copyToClipboard} className="px-2 bg-none text-xs sm:text-base">
@@ -69,6 +76,7 @@ export function EmailOutput({
               <pre className="text-black whitespace-pre-wrap text-xs sm:text-base">{generatedEmail}</pre>
             )}
           </div>
+
         </div>
 
         <div className="w-full sm:w-[35%] relative">
@@ -81,7 +89,7 @@ export function EmailOutput({
             Back to Input
           </Button>
           
-          <div className="mt-2 overflow-y-auto custom-scroll max-h-[350px] sm:h-[490px]">
+          <div className="hidden sm:block mt-2 overflow-y-auto custom-scroll max-h-[350px] sm:h-[490px]">
             <p className="bg-[#0d0e12] shadow-xl text-sm sm:text-lg font-normal text-gray-100 py-2 p-4 rounded-md">
             <span className='bg-[#482b9e] px-2 py-1 sm:px-3 sm:py-1 mr-1 rounded-full text-sm sm:text-lg -ml-2'>{userInitial?.toUpperCase()}</span> {prompt}
             </p>
@@ -90,7 +98,7 @@ export function EmailOutput({
             </div>
           </div>
 
-          <div className="mt-4 sm:mt-0 sm:absolute sm:bottom-0 w-full">
+          <div className="absolute sm:bottom-0 w-full">
             <Textarea
               placeholder="Add any specific requirements or modifications..."
               className="bg-[#0d0e12] w-full py-2 px-3 text-white max-h-48 placeholder:text-sm sm:text-xl border border-gray-400 rounded-xl sm:placeholder:text-base placeholder:font-medium placeholder:text-gray-500 focus:outline-blue-800 resize-none custom-scroll"
@@ -103,7 +111,7 @@ export function EmailOutput({
             />
 
             <button
-              className={`w-full py-1 text-gray-200 rounded-lg ${!bottomPrompt ? 'bg-[#2e137a] text-gray-300' : 'bg-[#3b1cab] text-gray-50'} text-sm sm:ext-lg font-normal mt-2 mb-6 sm:mb-0`}
+              className={`w-full py-1 text-gray-200 rounded-lg ${!bottomPrompt ? 'bg-[#2e137a] text-gray-300' : 'bg-[#3b1cab] text-gray-50'} text-sm sm:text-lg font-normal mt-2 mb-6 sm:mb-0`}
               onClick={onUpdate}
               disabled={!bottomPrompt}
             >
@@ -111,6 +119,7 @@ export function EmailOutput({
             </button>
           </div>
         </div>
+        
       </div>
   );
 }
