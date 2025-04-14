@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form"
 import { useToast } from "@/hooks/use-toast"
 import { NavLink, useNavigate } from "react-router-dom"
 import { Toaster } from "../components/ui/toaster"
-import { useDispatch } from "react-redux"
 import Googlelogin from "./Google-Login"
 
 export default function RegisterPage() {
