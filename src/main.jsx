@@ -6,7 +6,7 @@ import store from './context/store.js'
 import { GoogleOAuthProvider } from "@react-oauth/google"
 
 createRoot(document.getElementById('root')).render(
-    <GoogleOAuthProvider clientId={'296248819606-0bule3v4ta7cqqbvmdcen5a70ammpepv.apps.googleusercontent.com'}>
+    <GoogleOAuthProvider clientId={`${import.meta.env.VITE_GOOGLE_CLIENT_ID}`}>
         <Provider store={store}>
             <App />
         </Provider>
