@@ -17,6 +17,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const { register, handleSubmit, formState: { errors }, reset } = useForm()
   const navigate = useNavigate()
+  const url = import.meta.env.VITE_BASE_URL
 
   const onSubmit = async (data) => {
     setLoading(true)
