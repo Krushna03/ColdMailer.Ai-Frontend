@@ -27,18 +27,8 @@ export function EmailGenerator({ emailGenerated }) {
       setError(null);
       emailGenerated(true);
 
-      const trimmedPrompt = prompt.trim();
-      if (!trimmedPrompt.length) {
-        toast({
-          title: "Invalid Input",
-          description: "Please enter a valid prompt to generate an email.",
-          variant: "destructive",
-        });
-        return;
-      }
-
       try {
-        const response = await axios.post(`${url}/api/v1/email/generate-email`, { prompt: trimmedPrompt, userId }, 
+        const response = await axios.post(`${url}/api/v1/email/generate-email`, { prompt, userId }, 
           { withCredentials: true}
         );
 
@@ -76,7 +66,6 @@ export function EmailGenerator({ emailGenerated }) {
         });
         if (response.data.success) {
           setGeneratedEmail(response.data.updatedEmail);
-          setBottomPrompt("");
         } else {
           throw new Error(response.data.error || 'Failed to update email');
         }
@@ -88,6 +77,7 @@ export function EmailGenerator({ emailGenerated }) {
           variant: "destructive",
         });
       } finally {
+        setBottomPrompt("");
         setLoading(false);
       }
     };
@@ -135,11 +125,11 @@ export function EmailGenerator({ emailGenerated }) {
           />
       </div>
 
-      {error && (
+      {/* {error && (
         <div className="text-red-400 text-center mt-4 p-4 rounded-lg bg-red-500/10 backdrop-blur-sm z-50">
           {error}
         </div>
-      )}
+      )} */}
 
       {/* <Toaster /> */}
     </div>

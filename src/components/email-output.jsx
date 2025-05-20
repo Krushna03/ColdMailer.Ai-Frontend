@@ -4,9 +4,7 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { TiArrowBack } from "react-icons/ti";
 import { useSelector } from 'react-redux';
-import { extractEmailAndContent } from '../lib/ExtractEmail';
 import { formatBulletPoints, processGeneratedEmail } from '../lib/processGeneratedEmail';
-
 
 export function EmailOutput({
   prompt,
@@ -116,7 +114,7 @@ export function EmailOutput({
           <div className="absolute sm:bottom-0 w-full">
             <Textarea
               placeholder="Add any specific requirements or modifications..."
-              className="bg-[#14151b] w-full py-2 px-3 text-white max-h-36 placeholder:text-sm sm:text-xl border border-gray-400 rounded-xl sm:placeholder:text-base placeholder:font-medium placeholder:text-gray-500 focus:outline-blue-800 resize-none custom-scroll"
+              className="bg-[#14151b] w-full py-2 px-3 text-white max-h-36 placeholder:text-sm sm:text-base border border-gray-400 rounded-xl sm:placeholder:text-base placeholder:font-medium placeholder:text-gray-500 focus:outline-blue-800 resize-none custom-scroll"
               value={bottomPrompt}
               onChange={(e) => {
                 setBottomPrompt(e.target.value);
