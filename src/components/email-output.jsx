@@ -4,6 +4,8 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { TiArrowBack } from "react-icons/ti";
 import { useSelector } from 'react-redux';
+import { extractEmailAndContent } from '../lib/ExtractEmail';
+import { formatBulletPoints, processGeneratedEmail } from '../lib/processGeneratedEmail';
 
 
 export function EmailOutput({
@@ -27,32 +29,39 @@ export function EmailOutput({
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+  
+  const { email, content, isValid } = processGeneratedEmail(generatedEmail);
+
+  const formatAdditionalContent = (content) => {
+    return formatBulletPoints(content);
+  };
 
   return (
-      <div className="flex flex-col sm:flex sm:flex-row gap-8 P-2 mt-6 sm:mt-1">
+      <div className="flex flex-col sm:flex sm:flex-row gap-7 P-2 mt-6 sm:mt-1">
 
-        <div className="sm:w-[65%] flex flex-col mt-9 sm:mt-0">
+        <div className="sm:w-[63%] flex flex-col mt-9 sm:mt-0">
           
-          <div className="sm:hidden mt-2 mb-3 sm:mb-0 overflow-y-auto custom-scroll max-h-[350px] sm:h-[490px]">
-            <p className="bg-[#0d0e12] shadow-xl text-sm sm:text-lg font-normal text-gray-100 py-2 p-4 rounded-md">
-            <span className='bg-[#482b9e] px-2 py-1 sm:px-3 sm:py-1 mr-1 rounded-full text-sm sm:text-lg -ml-2'>{userInitial?.toUpperCase()}</span> {prompt}
+          <div className="sm:hidden mb-3 sm:mb-0 overflow-y-auto custom-scroll max-h-[350px] sm:h-[490px]">
+            <p className="bg-[#0d0e12] border border-gray-400 p-2 text-sm sm:text-lg font-normal text-gray-100 py-2 rounded-xl flex items-start gap-3">
+              <span className="bg-[#482b9e] px-2 py-1 sm:px-3 sm:py-1 rounded-full text-sm sm:text-lg">
+                {userInitial?.toUpperCase()}
+              </span>
+              <span className="flex-1">{prompt}</span>
             </p>
           </div>
           
           <div className="flex justify-between items-center sm:justify-start">
-            {!loading && (
-              <Button onClick={copyToClipboard} className="px-2 bg-none text-xs sm:text-base">
-                {copied ? (
-                  <>
-                    Copied <CopyCheckIcon className="mt-1 h-2 w-2 sm:w-4 sm:h-4 text-gray-200" />
-                  </>
-                ) : (
-                  <>
-                    Copy <Copy className="mt-1 h-2 w-2 sm:w-4 sm:h-4 p-0" />
-                  </>
-                )}
-              </Button>
-            )}
+            <Button onClick={copyToClipboard} className="px-2 bg-none text-xs sm:text-base">
+              {copied ? (
+                <>
+                  Copied <CopyCheckIcon className="mt-1 h-2 w-2 sm:w-4 sm:h-4 text-gray-200" />
+                </>
+              ) : (
+                <>
+                  Copy <Copy className="mt-1 h-2 w-2 sm:w-4 sm:h-4 p-0" />
+                </>
+              )}
+            </Button>
 
             <Button 
               onClick={onBack}
@@ -73,35 +82,41 @@ export function EmailOutput({
                 </div>
               </div>
             ) : (
-              <pre className="text-black whitespace-pre-wrap text-xs sm:text-base">{generatedEmail}</pre>
+              <pre className="text-black whitespace-pre-wrap text-xs sm:text-base">{email}</pre>
             )}
           </div>
 
         </div>
 
-        <div className="w-full sm:w-[35%] relative">
+        <div className="w-full sm:w-[37%] relative">
           <Button 
             onClick={onBack}
             variant="outline" 
-            className="hidden sm:flex mt-10 mb-1 bg-gray-950 hover:bg-gray-950 text-gray-300 hover:text-gray-200 px-3 h-8 text-xs"
+            className="hidden sm:flex mt-10 mb-2 bg-gray-950 hover:bg-gray-950 text-gray-300 hover:text-gray-200 px-2 h-6 text-xs font-bold"
           >
             <TiArrowBack className='w-4 h-4' />
             Back to Input
           </Button>
           
-          <div className="hidden sm:block mt-2 overflow-y-auto custom-scroll max-h-[350px] sm:h-[490px]">
-            <p className="bg-[#0d0e12] shadow-xl text-sm sm:text-lg font-normal text-gray-100 py-2 p-4 rounded-md">
-            <span className='bg-[#482b9e] px-2 py-1 sm:px-3 sm:py-1 mr-1 rounded-full text-sm sm:text-lg -ml-2'>{userInitial?.toUpperCase()}</span> {prompt}
+          <div className='hidden sm:block overflow-y-auto custom-scroll max-h-[445px] border border-gray-400 p-2 rounded-xl'>
+            <p className="bg-[#252628] p-2 text-sm sm:text-lg font-normal text-gray-100 rounded-xl flex items-start gap-2 shadow-xl">
+              <span className="bg-[#482b9e] px-3 py-1 rounded-full text-sm sm:text-lg">
+                {userInitial?.toUpperCase()}
+              </span>
+              <span className="flex-1">{prompt}</span>
             </p>
-            <div className="hidden sm:block mt-1 rounded-md text-gray-300 p-2 bg-[#0d0e12] text-sm font-normal">
-              <p>Want to refine your email further? Use the input below to specify any additional requirements or modifications.</p>
+
+            <div className={`hidden ${!content ? "hidden" : "sm:block mt-3 overflow-y-auto custom-scroll bg-[#1c1f23] shadow-xl p-2 rounded-xl"}`}>
+              <p className='text-white whitespace-pre-wrap text-xs sm:text-base z-10'>
+                {formatAdditionalContent(content)}
+              </p>
             </div>
           </div>
 
           <div className="absolute sm:bottom-0 w-full">
             <Textarea
               placeholder="Add any specific requirements or modifications..."
-              className="bg-[#0d0e12] w-full py-2 px-3 text-white max-h-48 placeholder:text-sm sm:text-xl border border-gray-400 rounded-xl sm:placeholder:text-base placeholder:font-medium placeholder:text-gray-500 focus:outline-blue-800 resize-none custom-scroll"
+              className="bg-[#14151b] w-full py-2 px-3 text-white max-h-36 placeholder:text-sm sm:text-xl border border-gray-400 rounded-xl sm:placeholder:text-base placeholder:font-medium placeholder:text-gray-500 focus:outline-blue-800 resize-none custom-scroll"
               value={bottomPrompt}
               onChange={(e) => {
                 setBottomPrompt(e.target.value);
@@ -123,3 +138,5 @@ export function EmailOutput({
       </div>
   );
 }
+
+

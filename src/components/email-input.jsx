@@ -20,14 +20,14 @@ export function EmailInput({ prompt, setPrompt, onSubmit }) {
       <form onSubmit={onSubmit} className="space-y-4">
         <Textarea
           placeholder="Describe your email (e.g. 'Cold email to a potential client about our new SaaS product')"
-          className="p-3 px-4 max-w-[750px] bg-[#0d0e12] min-h-24 sm:min-h-40 text-gray-200 sm:text-2xl border border-gray-400 rounded-xl placeholder:text-sm sm:placeholder:text-base placeholder:font-medium placeholder:text-gray-500 focus:outline-blue-800 custom-scroll"
+          className="p-3 px-4 max-w-[750px] bg-[#0d0e12] min-h-24 sm:min-h-36 text-gray-200 sm:text-2xl border border-gray-400 rounded-xl placeholder:text-sm sm:placeholder:text-base placeholder:font-medium placeholder:text-gray-500 focus:outline-blue-800 custom-scroll"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
         />
         <button
           type="submit"
-          disabled={!prompt}
-          className={`w-full ${!prompt ? 'bg-[#2e137a] text-gray-300' : 'bg-[#3b1cab] text-gray-50'} sm:text-lg font-medium py-2 rounded-xl`}
+          disabled={!prompt.trim()}
+          className={`w-full ${!prompt.trim() ? 'bg-[#2e137a] text-gray-300' : 'bg-[#3b1cab] text-gray-50'} sm:text-lg font-medium py-2 rounded-xl`}
         >
           Generate Email
         </button>

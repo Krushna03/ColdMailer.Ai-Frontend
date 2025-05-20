@@ -27,8 +27,18 @@ export function EmailGenerator({ emailGenerated }) {
       setError(null);
       emailGenerated(true);
 
+      const trimmedPrompt = prompt.trim();
+      if (!trimmedPrompt.length) {
+        toast({
+          title: "Invalid Input",
+          description: "Please enter a valid prompt to generate an email.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       try {
-        const response = await axios.post(`${url}/api/v1/email/generate-email`, { prompt, userId }, 
+        const response = await axios.post(`${url}/api/v1/email/generate-email`, { prompt: trimmedPrompt, userId }, 
           { withCredentials: true}
         );
 
@@ -120,6 +130,7 @@ export function EmailGenerator({ emailGenerated }) {
               setGeneratedEmail("");
               emailGenerated(false);
               setPrompt("")
+              setError("")
             }}
           />
       </div>
@@ -134,3 +145,4 @@ export function EmailGenerator({ emailGenerated }) {
     </div>
   );
 }
+
