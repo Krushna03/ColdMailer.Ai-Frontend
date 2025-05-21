@@ -114,7 +114,7 @@ export function EmailOutput({
           <div className="absolute sm:bottom-0 w-full">
             <Textarea
               placeholder="Add any specific requirements or modifications..."
-              className="bg-[#14151b] w-full py-2 px-3 text-white max-h-36 placeholder:text-sm sm:text-base border border-gray-400 rounded-xl sm:placeholder:text-base placeholder:font-medium placeholder:text-gray-500 focus:outline-blue-800 resize-none custom-scroll"
+              className="bg-[#14151b] w-full py-2 px-3 text-white max-h-36 placeholder:text-sm md:text-base border border-gray-400 rounded-xl sm:placeholder:text-base placeholder:font-medium placeholder:text-gray-500 focus:outline-blue-800 resize-none custom-scroll"
               value={bottomPrompt}
               onChange={(e) => {
                 setBottomPrompt(e.target.value);
@@ -124,9 +124,9 @@ export function EmailOutput({
             />
 
             <button
-              className={`w-full py-1 text-gray-200 rounded-lg ${!bottomPrompt ? 'bg-[#2e137a] text-gray-300' : 'bg-[#3b1cab] text-gray-50'} text-sm sm:text-lg font-normal mt-2 mb-6 sm:mb-0`}
+              className={`w-full py-1 text-gray-200 rounded-lg ${!bottomPrompt.trim() ? 'bg-[#2e137a] text-gray-300' : 'bg-[#3b1cab] text-gray-50'} text-sm sm:text-lg font-normal mt-2 mb-6 sm:mb-0`}
               onClick={onUpdate}
-              disabled={!bottomPrompt}
+              disabled={!bottomPrompt.trim()}
             >
               Update Email
             </button>

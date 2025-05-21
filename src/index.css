@@ -98,3 +98,7 @@ html {
 .custom-scroll::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Edge */
 }
+
+html, body, #root {
+  height: 100%;
+}

@@ -91,7 +91,7 @@ export const GenerateEmail = () => {
   
       <MovingDots />
       <Header />
-      <main className="z-50 flex-1 flex sm:flex-col items-center justify-center px-2">
+      <main className="z-50 h-full custom-scroll flex-1 flex sm:flex-col items-center justify-center px-2">
         <EmailGenerator emailGenerated={setGeneratedEmails} />
       </main>
   

@@ -102,8 +102,8 @@ export function EmailGenerator({ emailGenerated }) {
 
         <div 
           className={`
-            w-full h-full mt-6
-            transition-all duration-500 ease-in-out overflow-y-auto sm:overflow-y-hidden custom-scroll
+            w-full h-full mt-6 pb-8
+            transition-all duration-500 ease-in-out overflow-y-auto custom-scroll
             ${showOutput ? 'transform translate-y-0 opacity-100' : 'transform translate-y-full opacity-0'}
             absolute top-0 left-0 bottom-0
           `}
