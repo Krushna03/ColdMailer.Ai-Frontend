@@ -54,7 +54,7 @@ export default function RegisterPage() {
         const backendErrorMessage = error.response.data.message || "An error occurred.";
         console.error("Backend Error:", backendErrorMessage);
         toast({
-          title: "Error",
+          title: "Error Occurred !!",
           description: backendErrorMessage,
           status: "error",
           variant: "destructive",
@@ -64,7 +64,7 @@ export default function RegisterPage() {
       } else {
         console.error("Unexpected Error:", error);
         toast({
-          title: "Error",
+          title: "Error Occurred !!",
           description: "An unexpected error occurred. Please try again later.",
           variant: "destructive",
           status: "error",
@@ -167,9 +167,9 @@ export default function RegisterPage() {
           <div className="w-full flex flex-col items-center mt-6">
             <Googlelogin />
             <h1 className="text-center text-gray-300 mt-5">
-              Don't have an account?
-              <NavLink to="/sign-up">
-                <span className="text-blue-500 ml-2">Signup</span>
+              Already have an account?
+              <NavLink to="/sign-in">
+                <span className="text-blue-500 ml-2">Signin</span>
               </NavLink>
             </h1>
           </div>

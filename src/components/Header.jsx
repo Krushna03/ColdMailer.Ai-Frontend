@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { ShimmerButton } from "./ui/spinner-button"
 import { User } from "lucide-react"
 import { useToast } from "../hooks/use-toast"
@@ -18,7 +18,8 @@ export function Header() {
   const token = localStorage.getItem('token') || null;
   const url = import.meta.env.VITE_BASE_URL
 
-  const manun = true
+  const location = useLocation()
+  const isEmailLocation = location.pathname.includes('/email/');
 
   const handleLogout = async (e) => {
     e.preventDefault()
@@ -51,7 +52,7 @@ export function Header() {
   }
   
   return (
-    <header className="backdrop-blur-md shadow-lg shadow-blue-900/0 group-hover:shadow-blue-900/50">
+    <header className="sticky top-0 z-0 backdrop-blur-3xl shadow-lg group-hover:shadow-blue-900/50">
       <div className="flex h-16 items-center px-2 md:px-10">
         <NavLink to="/" className="flex items-center gap-1 md:mr-6 group">
           <div className="p-2 md:px-4 rounded-xl transition-shadow flex items-center gap-2">

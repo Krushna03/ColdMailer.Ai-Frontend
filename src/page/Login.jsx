@@ -51,7 +51,7 @@ export default function LoginPage() {
         const backendErrorMessage = error.response.data.message || "An error occurred.";
         console.error("Backend Error:", backendErrorMessage);
         toast({
-          title: "Error",
+          title: "Error Occurred !!",
           description: backendErrorMessage,
           variant: "destructive",
           duration: 5000,
@@ -59,7 +59,7 @@ export default function LoginPage() {
       } else {
         console.error("Unexpected Error:", error);
         toast({
-          title: "Error",
+          title: "Erro Occurred !!",
           description: "An unexpected error occurred. Please try again later.",
           variant: "destructive",
         });

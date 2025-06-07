@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { EmailInput } from './email-input';
 import { EmailOutput } from './email-output';
 import { useToast } from "../hooks/use-toast";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import sidebarContext from '../context/SidebarContext';
 
+const url = import.meta.env.VITE_BASE_URL
 
 export function EmailGenerator({ emailGenerated }) {
     const [prompt, setPrompt] = useState("");
@@ -15,7 +17,7 @@ export function EmailGenerator({ emailGenerated }) {
     const [showOutput, setShowOutput] = useState(false);
     const [emailId, setEmailId] = useState("")
     const { toast } = useToast();
-    const url = import.meta.env.VITE_BASE_URL
+    const { updateSidebar, setUpdateSidebar } = useContext(sidebarContext)
 
     const user = useSelector(state => state.auth.userData)
     const userId = user?.userData?._id
@@ -35,13 +37,14 @@ export function EmailGenerator({ emailGenerated }) {
         if (response.data.success) {
           setGeneratedEmail(response.data.fullEmail);
           setEmailId(response.data.emailId)
-        } else {
+          setUpdateSidebar(!updateSidebar)
+      } else {
           throw new Error(response.data.error || 'Failed to generate email');
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong");
         toast({
-          title: "Error",
+          title: "Error Occurred !!",
           description: err instanceof Error ? err.message : "Something went wrong",
           variant: "destructive",
         });
