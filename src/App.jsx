@@ -38,9 +38,9 @@ function App() {
     {
       path: "/email/:id",
       element: (
-        // <Protected>
+        <Protected>
             <EmailHistory />
-        // </Protected>
+        </Protected>
       ) 
     },
   ]) 

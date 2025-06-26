@@ -14,7 +14,7 @@ const LandingPage = () => {
       {/* Navbar & hero  */}
       <div id='home' className="min-h-screen bg-black text-white relative overflow-hidden">
         
-      <MovingDots />
+        <MovingDots />
 
         <div className="absolute top-10 -left-14 w-1/2 h-72 bg-[#6f34ed] opacity-30 blur-3xl"></div>
         <div className="absolute bottom-10 -right-0 w-1/2 h-64 bg-[#6f34ed] opacity-30 blur-3xl"></div>

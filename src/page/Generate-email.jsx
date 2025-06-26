@@ -20,8 +20,42 @@ export const GenerateEmail = () => {
 
   const token = JSON.parse(localStorage.getItem('token')) || null;
 
-  
+  const isTokenExpired = (token) => {
+    if (!token) return true;
+    
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+      return payload.exp < currentTime;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return true;
+    }
+  };
+
+  const handleLogout = (message = "Session expired. Please log in again.") => {
+    localStorage.removeItem('token');
+    dispatch(logout());
+    navigate('/sign-in');
+    toast({
+      title: "Authentication Required",
+      description: message,
+      variant: "destructive"
+    });
+  };
+
+
   const validateANDFetchUser = async () => {
+    if (!token) {
+      handleLogout("No authentication token found.");
+      return;
+    }
+
+    if (isTokenExpired(token)) {
+      handleLogout("Session expired. Please log in again.");
+      return;
+    }
+
     try {
       const response = await axios.get(`${url}/api/v1/user/getCurrentUser`,
         {
@@ -54,7 +88,7 @@ export const GenerateEmail = () => {
     if (token) {
       validateANDFetchUser()
     }
-}, [dispatch])
+  }, [])
   
   return (
     <>
