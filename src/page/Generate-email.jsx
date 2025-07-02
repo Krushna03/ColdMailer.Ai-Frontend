@@ -9,6 +9,7 @@ import axios from 'axios';
 import { login, logout } from '../context/authSlice';
 import { useToast } from '../hooks/use-toast';
 import Sidebar from '../components/Sidebar';
+import { handleLogout, isTokenExpired } from '../Helper/tokenValidation';
 
 export const GenerateEmail = () => {
 
@@ -19,31 +20,6 @@ export const GenerateEmail = () => {
   const url = import.meta.env.VITE_BASE_URL
 
   const token = JSON.parse(localStorage.getItem('token')) || null;
-
-  const isTokenExpired = (token) => {
-    if (!token) return true;
-    
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const currentTime = Math.floor(Date.now() / 1000);
-      return payload.exp < currentTime;
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return true;
-    }
-  };
-
-  const handleLogout = (message = "Session expired. Please log in again.") => {
-    localStorage.removeItem('token');
-    dispatch(logout());
-    navigate('/sign-in');
-    toast({
-      title: "Authentication Required",
-      description: message,
-      variant: "destructive"
-    });
-  };
-
 
   const validateANDFetchUser = async () => {
     if (!token) {
@@ -102,7 +78,7 @@ export const GenerateEmail = () => {
     
         <MovingDots />
         <Header />
-        <main className="z-50 h-full custom-scroll flex-1 flex sm:flex-col items-center justify-center px-2">
+        <main className="z-20 h-full custom-scroll flex-1 flex sm:flex-col items-center justify-center px-2">
           <EmailGenerator emailGenerated={setGeneratedEmails} />
         </main>
     

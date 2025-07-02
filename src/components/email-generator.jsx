@@ -5,6 +5,7 @@ import { useToast } from "../hooks/use-toast";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import sidebarContext from '../context/SidebarContext';
+import { handleLogout, isTokenExpired } from '../Helper/tokenValidation';
 
 const url = import.meta.env.VITE_BASE_URL
 
@@ -18,6 +19,7 @@ export function EmailGenerator({ emailGenerated }) {
     const [emailId, setEmailId] = useState("")
     const { toast } = useToast();
     const { updateSidebar, setUpdateSidebar } = useContext(sidebarContext)
+    const token = JSON.parse(localStorage.getItem('token')) || null;
 
     const user = useSelector(state => state.auth.userData)
     const userId = user?.userData?._id
@@ -29,9 +31,24 @@ export function EmailGenerator({ emailGenerated }) {
       setError(null);
       emailGenerated(true);
 
+      if (!token) {
+        handleLogout("No authentication token found.");
+        return;
+      }
+  
+      if (isTokenExpired(token)) {
+        handleLogout("Session expired. Please log in again.");
+        return;
+      }
+
       try {
         const response = await axios.post(`${url}/api/v1/email/generate-email`, { prompt, userId }, 
-          { withCredentials: true}
+          { 
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+          }
         );
 
         if (response.data.success) {
@@ -87,10 +104,10 @@ export function EmailGenerator({ emailGenerated }) {
 
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto relative h-full -top-6 sm:-top-4">
+    <div className="w-full max-w-[1400px] mx-auto relative h-full z-10 -top-6 sm:-top-4">
         <div 
           className={`
-            w-full
+            w-full z-10
             transition-all duration-500 ease-in-out
             ${showOutput ? 'transform -translate-y-full opacity-0' : 'transform translate-y-0 opacity-100'}
             absolute top-[20%] left-0
@@ -105,7 +122,7 @@ export function EmailGenerator({ emailGenerated }) {
 
         <div 
           className={`
-            w-full h-full mt-6 pb-8
+            w-full h-full mt-6 pb-8 z-10
             transition-all duration-500 ease-in-out overflow-y-auto custom-scroll
             ${showOutput ? 'transform translate-y-0 opacity-100' : 'transform translate-y-full opacity-0'}
             absolute top-0 left-0 bottom-0
