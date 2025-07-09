@@ -4,7 +4,7 @@ import { EmailOutput } from './email-output';
 import { useToast } from "../hooks/use-toast";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import sidebarContext from '../context/SidebarContext';
+import { useSidebarContext } from '../context/SidebarContext';
 import { handleLogout, isTokenExpired } from '../Helper/tokenValidation';
 
 const url = import.meta.env.VITE_BASE_URL
@@ -18,7 +18,7 @@ export function EmailGenerator({ emailGenerated }) {
     const [showOutput, setShowOutput] = useState(false);
     const [emailId, setEmailId] = useState("")
     const { toast } = useToast();
-    const { updateSidebar, setUpdateSidebar } = useContext(sidebarContext)
+    const { updateSidebar, setUpdateSidebar } = useSidebarContext()
     const token = JSON.parse(localStorage.getItem('token')) || null;
 
     const user = useSelector(state => state.auth.userData)

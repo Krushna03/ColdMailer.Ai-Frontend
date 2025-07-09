@@ -7,7 +7,7 @@ import SidebarLoader from "../loader/SidebarLoader";
 import { useNavigate } from "react-router-dom";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "../components/ui/dropdown-menu";
 import { MdDelete } from "react-icons/md";
-import sidebarContext from "../context/SidebarContext";
+import { useSidebarContext } from "../context/SidebarContext";
 import { MoreVertical } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { handleLogout, isTokenExpired } from "../Helper/tokenValidation";
@@ -27,7 +27,7 @@ export default function Sidebar() {
   const token = JSON.parse(localStorage.getItem('token')) || null;
   const userData = JSON.parse(localStorage.getItem("data") || null);
   const userID = userData?.userData?._id || null;
-  const { updateSidebar } = useContext(sidebarContext);
+  const { updateSidebar } = useSidebarContext();
 
   const sidebarRef = useRef(null);
   const sidebarScrollRef = useRef(null);
