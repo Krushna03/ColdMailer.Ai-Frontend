@@ -10,7 +10,7 @@ import { MdDelete } from "react-icons/md";
 import { useSidebarContext } from "../context/SidebarContext";
 import { MoreVertical } from "lucide-react";
 import { Button } from "../components/ui/button";
-import { handleLogout, isTokenExpired } from "../Helper/tokenValidation";
+import { isTokenExpired, useLogout } from "../Helper/tokenValidation";
 
 const url = import.meta.env.VITE_BASE_URL;
 
@@ -28,6 +28,7 @@ export default function Sidebar() {
   const userData = JSON.parse(localStorage.getItem("data") || null);
   const userID = userData?.userData?._id || null;
   const { updateSidebar } = useSidebarContext();
+  const logoutUser = useLogout();
 
   const sidebarRef = useRef(null);
   const sidebarScrollRef = useRef(null);
@@ -49,12 +50,12 @@ export default function Sidebar() {
     if (!userID || loading || !hasMore) return;
 
     if (!token) {
-      handleLogout("No authentication token found.");
+      logoutUser("No authentication token found.");
       return;
     }
 
     if (isTokenExpired(token)) {
-      handleLogout("Session expired. Please log in again.");
+      logoutUser("Session expired. Please log in again.");
       return;
     }
 
@@ -109,12 +110,12 @@ export default function Sidebar() {
 
   const handleEmailDelete = async (emailId) => {
     if (!token) {
-      handleLogout("No authentication token found.");
+      logoutUser("No authentication token found.");
       return;
     }
 
     if (isTokenExpired(token)) {
-      handleLogout("Session expired. Please log in again.");
+      logoutUser("Session expired. Please log in again.");
       return;
     }
     
@@ -263,7 +264,13 @@ export default function Sidebar() {
           {loading && <SidebarLoader />}
         </ul>
 
-        <div className="p-3 border-t border-white/10">
+        <div className="p-3 border-t border-white/10 space-y-3">
+          <Button
+            className="w-full rounded-xl bg-[#6f34ed] text-white hover:bg-[#7c3ffc]"
+            onClick={() => navigate('/payment')}
+          >
+            Manage Plan
+          </Button>
           <div className="text-center">
             <p className="text-slate-400 text-xs">Powered By</p>
             <p className="text-white font-medium text-sm">ColmailerAi</p>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { MovingDots } from '../components/moving-dots';
 import { Header } from '../components/Header';
 import { EmailGenerator } from '../components/email-generator';
@@ -9,7 +9,7 @@ import axios from 'axios';
 import { login, logout } from '../context/authSlice';
 import { useToast } from '../hooks/use-toast';
 import Sidebar from '../components/Sidebar';
-import { handleLogout, isTokenExpired } from '../Helper/tokenValidation';
+import { isTokenExpired, useLogout } from '../Helper/tokenValidation';
 
 export const GenerateEmail = () => {
 
@@ -17,18 +17,19 @@ export const GenerateEmail = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { toast } = useToast()
+  const logoutUser = useLogout()
   const url = import.meta.env.VITE_BASE_URL
 
   const token = JSON.parse(localStorage.getItem('token')) || null;
 
-  const validateANDFetchUser = async () => {
+  const validateANDFetchUser = useCallback(async () => {
     if (!token) {
-      handleLogout("No authentication token found.");
+      logoutUser("No authentication token found.");
       return;
     }
 
     if (isTokenExpired(token)) {
-      handleLogout("Session expired. Please log in again.");
+      logoutUser("Session expired. Please log in again.");
       return;
     }
 
@@ -58,7 +59,7 @@ export const GenerateEmail = () => {
       });
       navigate('/sign-in')
     }
-  } 
+  }, [token, logoutUser, url])
 
   useEffect(() => {
     if (token) {
