@@ -36,7 +36,7 @@ const MarqueeTestimonials = () => {
           {[0, 1, 2].map((colIndex) => (
             <div
               key={colIndex}
-              className="marquee-column flex-1 max-w-md overflow-hidden relative h-[800px] rounded-xl"
+              className={`marquee-column flex-1 max-w-md overflow-hidden relative h-[800px] rounded-xl ${colIndex === 1 ? "hidden sm:block" : ""} ${colIndex === 2 ? "hidden md:block" : ""}`}
               onMouseEnter={() => setHoveredColumn(colIndex)}
               onMouseLeave={() => setHoveredColumn(null)}
             >

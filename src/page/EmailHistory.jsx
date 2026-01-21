@@ -3,16 +3,17 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { Copy, CopyCheckIcon } from "lucide-react"
+import { Copy, CopyCheckIcon, MailOpen } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Header } from "../components/Header"
 import { useLocation, useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 import Sidebar from "../components/Sidebar"
 import { TiArrowBack } from "react-icons/ti"
 import axios from "axios"
 import EmailUpdateLoader from "../loader/loader"
 import { isTokenExpired, useLogout } from "../Helper/tokenValidation"
-import { useCopyToClipboard, parseEmail, getToken, capitalizeFirstLetter } from "../utils"
+import { useCopyToClipboard, parseEmail, getToken, capitalizeFirstLetter, openGmailCompose } from "../utils"
 
 const url = import.meta.env.VITE_BASE_URL
 
@@ -29,6 +30,12 @@ export default function EmailHistory() {
   const token = getToken();
   const logoutUser = useLogout();
   const handleClipboardCopy = useCopyToClipboard(setCopiedId);
+  const user = useSelector((state) => state.auth.userData);
+  const userEmail = user?.userData?.email || "";
+
+  const handleGmailCompose = (subject, body) => {
+    openGmailCompose({ to: userEmail, subject, body, userEmail });
+  };
 
   const [iterations, setIterations] = useState([])
 
@@ -162,27 +169,37 @@ export default function EmailHistory() {
                           {new Date(iteration?.createdAt).toLocaleDateString()}
                         </span>
                       </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          handleClipboardCopy(
-                            `Subject: ${iteration.subject}\n\n${iteration.body}`,
-                            iteration.id
-                          )
-                        }
-                        className="gap-2 text-xs sm:text-sm"
-                      >
-                        {copiedId === iteration.id ? (
-                          <>
-                            Copied <CopyCheckIcon className="mt-1 h-2 w-2 sm:w-4 sm:h-4 text-black" />
-                          </>
-                        ) : (
-                          <>
-                            Copy <Copy className="mt-1 h-2 w-2 sm:w-4 sm:h-4 p-0" />
-                          </>
-                        )}
-                      </Button>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleGmailCompose(iteration.subject, iteration.body)}
+                          className="gap-2 text-xs sm:text-sm"
+                        >
+                          Send to Gmail <MailOpen className="mt-1 h-2 w-2 sm:w-4 sm:h-4 p-0" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            handleClipboardCopy(
+                              `Subject: ${iteration.subject}\n\n${iteration.body}`,
+                              iteration.id
+                            )
+                          }
+                          className="gap-2 text-xs sm:text-sm"
+                        >
+                          {copiedId === iteration.id ? (
+                            <>
+                              Copied <CopyCheckIcon className="mt-1 h-2 w-2 sm:w-4 sm:h-4 text-black" />
+                            </>
+                          ) : (
+                            <>
+                              Copy <Copy className="mt-1 h-2 w-2 sm:w-4 sm:h-4 p-0" />
+                            </>
+                          )}
+                        </Button>
+                      </div>
                     </div>
                     {iteration.modifications && (
                       <div className="mt-3 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-400">
@@ -217,26 +234,36 @@ export default function EmailHistory() {
                         {new Date(emailHistory?.createdAt).toLocaleDateString()}
                       </span>
                     </div>
-                    <Button
-                      variant="outline"
-                      onClick={() =>
-                        handleClipboardCopy(
-                          `Subject: ${original.subject}\n\n${original.body}`,
-                          'original'
-                        )
-                      }
-                      className="gap-2 text-xs sm:text-sm"
-                    >
-                      {copiedId === 'original' ? (
-                        <>
-                          Copied <CopyCheckIcon className="mt-1 h-2 w-2 sm:w-4 sm:h-4 text-black" />
-                        </>
-                      ) : (
-                        <>
-                          Copy <Copy className="mt-1 h-1 w-1 sm:w-4 sm:h-4 p-0" />
-                        </>
-                      )}
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleGmailCompose(original.subject, original.body)}
+                        className="gap-2 text-xs sm:text-sm"
+                      >
+                        Send to Gmail <MailOpen className="mt-1 h-2 w-2 sm:w-4 sm:h-4 p-0" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() =>
+                          handleClipboardCopy(
+                            `Subject: ${original.subject}\n\n${original.body}`,
+                            'original'
+                          )
+                        }
+                        className="gap-2 text-xs sm:text-sm"
+                      >
+                        {copiedId === 'original' ? (
+                          <>
+                            Copied <CopyCheckIcon className="mt-1 h-2 w-2 sm:w-4 sm:h-4 text-black" />
+                          </>
+                        ) : (
+                          <>
+                            Copy <Copy className="mt-1 h-1 w-1 sm:w-4 sm:h-4 p-0" />
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
