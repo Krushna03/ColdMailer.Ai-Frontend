@@ -236,7 +236,7 @@ const LandingPage = () => {
         <PricingSection />
       </Element>
 
-      <div className="py-20 bg-black relative z-10">
+      <div name='testimonials' id='testimonials' className="py-20 bg-black relative z-10">
         <MarqueeTestimonials />
       </div>
 

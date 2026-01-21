@@ -1,6 +1,7 @@
 export const navigationLinks = [
   { label: "Features", target: "features", offset: -80 },
   { label: "Pricing", target: "pricing", offset: -80 },
+  { label: "Testimonials", target: "testimonials", offset: -80 },
   { label: "Faqs", target: "faqs", offset: -80 },
   { label: "Contact", target: "contact", offset: -80 },
 ];
