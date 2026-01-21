@@ -12,16 +12,9 @@ import { TiArrowBack } from "react-icons/ti"
 import axios from "axios"
 import EmailUpdateLoader from "../loader/loader"
 import { isTokenExpired, useLogout } from "../Helper/tokenValidation"
+import { useCopyToClipboard, parseEmail, getToken, capitalizeFirstLetter } from "../utils"
 
 const url = import.meta.env.VITE_BASE_URL
-
-const parseEmail = (emailStr = "") => {
-  const [subjectLine, ...bodyLines] = emailStr.split('\n')
-  return {
-    subject: subjectLine.replace(/^Subject:\s*/i, '').trim(),
-    body: bodyLines.join('\n').split('Additional suggestions')[0].trim(),
-  }
-}
 
 export default function EmailHistory() {
   const [newModification, setNewModification] = useState("")
@@ -33,8 +26,9 @@ export default function EmailHistory() {
   const emailId = emailHistory?._id || location.state?.emailHistory?._id || null
   const original = useMemo(() => parseEmail(emailHistory?.generatedEmail || ""), [emailHistory])
   const navigate = useNavigate();
-  const token = JSON.parse(localStorage.getItem('token')) || null;
+  const token = getToken();
   const logoutUser = useLogout();
+  const handleClipboardCopy = useCopyToClipboard(setCopiedId);
 
   const [iterations, setIterations] = useState([])
 
@@ -135,16 +129,6 @@ export default function EmailHistory() {
     }
   };
   
-  
-  const handleClipboardCopy = async ({ text, id, setCopiedId }) => {
-    try {
-      await navigator.clipboard.writeText(text)
-      setCopiedId(id)
-      setTimeout(() => setCopiedId(null), 2000)
-    } catch (err) {
-      console.error("Copy failed:", err)
-    }
-  }
 
 
   return (
@@ -158,7 +142,7 @@ export default function EmailHistory() {
       <div className="relative z-10 container mx-auto px-2 sm:px-8 lg:px-14 py-6">
         <div className="mb-4">
           <h2 className="text-sm md:text-xl font-bold text-white mb-2">
-            {emailHistory?.prompt?.charAt(0).toUpperCase() + emailHistory?.prompt?.slice(1)}
+            {capitalizeFirstLetter(emailHistory?.prompt || '')}
           </h2>
         </div>
 
@@ -182,11 +166,10 @@ export default function EmailHistory() {
                         variant="outline"
                         size="sm"
                         onClick={() =>
-                          handleClipboardCopy({
-                            text: `Subject: ${iteration.subject}\n\n${iteration.body}`,
-                            id: iteration.id,
-                            setCopiedId,
-                          })
+                          handleClipboardCopy(
+                            `Subject: ${iteration.subject}\n\n${iteration.body}`,
+                            iteration.id
+                          )
                         }
                         className="gap-2 text-xs sm:text-sm"
                       >
@@ -237,11 +220,10 @@ export default function EmailHistory() {
                     <Button
                       variant="outline"
                       onClick={() =>
-                        handleClipboardCopy({
-                          text: `Subject: ${original.subject}\n\n${original.body}`,
-                          id: 'original',
-                          setCopiedId,
-                        })
+                        handleClipboardCopy(
+                          `Subject: ${original.subject}\n\n${original.body}`,
+                          'original'
+                        )
                       }
                       className="gap-2 text-xs sm:text-sm"
                     >
